@@ -1,8 +1,8 @@
 package com.mouse4ssistant.cursedentities.block;
 
 import com.mouse4ssistant.cursedentities.CursedEntitiesMod;
+import com.mouse4ssistant.cursedentities.block.custom.DirectionBlockState;
 import com.mouse4ssistant.cursedentities.item.ModItems;
-import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -20,7 +20,7 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, CursedEntitiesMod.MODID);
 
     public static final RegistryObject<Block> DEMON_CARVED_PUMPKIN = registryBlock("demon_carved_pumpkin",
-            ()-> new Block(BlockBehaviour.Properties.of()
+            ()-> new DirectionBlockState(BlockBehaviour.Properties.of()
                     .strength(4f).requiresCorrectToolForDrops().sound(SoundType.WOOD)));
 
 
