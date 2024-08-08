@@ -1,6 +1,7 @@
 package com.mouse4ssistant.cursedentities;
 
 import com.mojang.logging.LogUtils;
+import com.mouse4ssistant.cursedentities.item.ModCreativeModeTabs;
 import com.mouse4ssistant.cursedentities.item.ModItems;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,6 +33,7 @@ public class CursedEntitiesMod
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
 
+        ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
@@ -46,9 +48,7 @@ public class CursedEntitiesMod
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if(event.getTabKey()== CreativeModeTabs.INGREDIENTS){
-            event.accept(ModItems.CURSED_BOOK);
-        }
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
