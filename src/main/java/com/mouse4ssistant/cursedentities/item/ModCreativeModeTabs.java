@@ -1,6 +1,7 @@
 package com.mouse4ssistant.cursedentities.item;
 
 import com.mouse4ssistant.cursedentities.CursedEntitiesMod;
+import com.mouse4ssistant.cursedentities.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,6 +20,7 @@ public class ModCreativeModeTabs {
                     .displayItems(((itemDisplayParameters, output) -> {
                         //order in which objects are visible
                         output.accept(ModItems.CURSED_BOOK.get());
+                        output.accept(ModBlocks.DEMON_CARVED_PUMPKIN.get());
 
                     })).build());
 

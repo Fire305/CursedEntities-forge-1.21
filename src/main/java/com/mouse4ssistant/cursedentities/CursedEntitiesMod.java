@@ -1,6 +1,7 @@
 package com.mouse4ssistant.cursedentities;
 
 import com.mojang.logging.LogUtils;
+import com.mouse4ssistant.cursedentities.block.ModBlocks;
 import com.mouse4ssistant.cursedentities.item.ModCreativeModeTabs;
 import com.mouse4ssistant.cursedentities.item.ModItems;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -35,6 +36,7 @@ public class CursedEntitiesMod
 
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
