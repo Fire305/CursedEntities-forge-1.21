@@ -21,6 +21,7 @@ public class ModCreativeModeTabs {
                         //order in which objects are visible
                         output.accept(ModItems.CURSED_BOOK.get());
                         output.accept(ModBlocks.DEMON_CARVED_PUMPKIN.get());
+                        output.accept(ModBlocks.INFUSED_DEMON_CARVED_PUMPKIN.get());
 
                     })).build());
 

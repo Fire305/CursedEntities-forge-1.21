@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "curse:block/infused_demon_carved_pumpkin",
+    "side": "curse:block/demon_pumpkin_side",
+    "top": "curse:block/demon_pumpkin_top"
+  }
+}

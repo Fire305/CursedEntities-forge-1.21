@@ -14,12 +14,26 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
+/* how to add a block remainder:
+add the block here
+add the loot tables in "ModBlockLootTables" in datagen
+add the block in "ModCreativeModeTabs"
+if the block as different faces create the "blockstate","models/block" and "models/item"
+else if the block is simple add it in "ModBLockStateProvider"
+add the block in "en_us.json"
+add the texture
+*
+*
+* */
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, CursedEntitiesMod.MODID);
 
     public static final RegistryObject<Block> DEMON_CARVED_PUMPKIN = registryBlock("demon_carved_pumpkin",
+            ()-> new DirectionBlockState(BlockBehaviour.Properties.of()
+                    .strength(1f).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> INFUSED_DEMON_CARVED_PUMPKIN = registryBlock("infused_demon_carved_pumpkin",
             ()-> new DirectionBlockState(BlockBehaviour.Properties.of()
                     .strength(1f).sound(SoundType.WOOD)));
 

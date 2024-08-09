@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "curse:infused_demon_carved_pumpkin"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "curse:blocks/infused_demon_carved_pumpkin"
+}

@@ -27,6 +27,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(ModBlocks.DEMON_CARVED_PUMPKIN.get());
+        dropSelf(ModBlocks.INFUSED_DEMON_CARVED_PUMPKIN.get());
 
         //for ore's loot table
         //this.add(ModBlocks.BLOCK_ORE.get(),
