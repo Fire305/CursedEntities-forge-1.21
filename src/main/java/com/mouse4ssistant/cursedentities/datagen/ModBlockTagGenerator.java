@@ -18,7 +18,11 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-      //  this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-      //          .add(ModBlocks.BLOCCO.get());
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(ModBlocks.CELESTINE_ORE.get())
+                .add(ModBlocks.CELESTINE_DEEPSLATE_ORE.get());
+        this.tag(BlockTags.NEEDS_IRON_TOOL)
+                .add(ModBlocks.CELESTINE_ORE.get())
+                .add(ModBlocks.CELESTINE_DEEPSLATE_ORE.get());
     }
 }

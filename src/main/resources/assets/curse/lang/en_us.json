@@ -1,8 +1,13 @@
 {
   "item.curse.cursed_book": "Cursed Book",
+  "item.curse.cursed_book_scarecrow": "Book of the Scarecrow",
+  "item.curse.celestine_shard": "Celestine shard",
+  "item.curse.celestine_crystal": "Celestine Crystal",
 
   "block.curse.demon_carved_pumpkin": "Demon carved pumpkin",
   "block.curse.infused_demon_carved_pumpkin": "Infused demon carved pumpkin",
+  "block.curse.celestine_ore": "Celestine ore",
+  "block.curse.celestine_deepslate_ore": "Celestine deepslate ore",
 
   "creativetab.cursed_entities": "Cursed Entities"
 }

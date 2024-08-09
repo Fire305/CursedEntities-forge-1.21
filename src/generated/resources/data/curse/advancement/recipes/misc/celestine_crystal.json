@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_celestine_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "curse:celestine_shard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "curse:celestine_crystal"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_celestine_shard"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "curse:celestine_crystal"
+    ]
+  }
+}

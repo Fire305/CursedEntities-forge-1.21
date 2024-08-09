@@ -3,9 +3,11 @@ package com.mouse4ssistant.cursedentities.block;
 import com.mouse4ssistant.cursedentities.CursedEntitiesMod;
 import com.mouse4ssistant.cursedentities.block.custom.DirectionBlockState;
 import com.mouse4ssistant.cursedentities.item.ModItems;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -36,6 +38,12 @@ public class ModBlocks {
     public static final RegistryObject<Block> INFUSED_DEMON_CARVED_PUMPKIN = registryBlock("infused_demon_carved_pumpkin",
             ()-> new DirectionBlockState(BlockBehaviour.Properties.of()
                     .strength(1f).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> CELESTINE_ORE = registryBlock("celestine_ore",
+            ()-> new DropExperienceBlock(UniformInt.of(2, 5),
+                    BlockBehaviour.Properties.of().strength(3f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> CELESTINE_DEEPSLATE_ORE = registryBlock("celestine_deepslate_ore",
+            ()-> new DropExperienceBlock(UniformInt.of(3, 7),
+                    BlockBehaviour.Properties.of().strength(5f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()));
 
 
     private static <T extends Block> RegistryObject<T> registryBlock(String name, Supplier<T> block){

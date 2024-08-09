@@ -30,9 +30,11 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.INFUSED_DEMON_CARVED_PUMPKIN.get());
 
         //for ore's loot table
-        //this.add(ModBlocks.BLOCK_ORE.get(),
-        //        block -> createOreDrop(ModBlocks.BLOCK_ORE.get(), ModItems.ORE_ITEM.get()));
-        // ctrl+click on "createOreDrop" to see all of the methods
+        this.add(ModBlocks.CELESTINE_ORE.get(),
+                block -> createMultipleOreDrops(ModBlocks.CELESTINE_ORE.get(), ModItems.CELESTINE_SHARD.get(), 1,3));
+        // ctrl+click on "createOreDrop" to see all the methods
+        this.add(ModBlocks.CELESTINE_DEEPSLATE_ORE.get(),
+                block -> createMultipleOreDrops(ModBlocks.CELESTINE_DEEPSLATE_ORE.get(), ModItems.CELESTINE_SHARD.get(), 2,5));
     }
 
     //for multiple ore drops, replace "createOreDrop" whit "createMultipleOreDrops" and add 2 number for the min and max
