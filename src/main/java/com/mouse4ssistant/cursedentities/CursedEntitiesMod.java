@@ -23,9 +23,7 @@ import org.slf4j.Logger;
 @Mod(CursedEntitiesMod.MODID)
 public class CursedEntitiesMod
 {
-    // Define mod id in a common place for everything to reference
     public static final String MODID = "curse";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public CursedEntitiesMod()
