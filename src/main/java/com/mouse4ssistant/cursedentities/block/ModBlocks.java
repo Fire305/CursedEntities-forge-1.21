@@ -21,7 +21,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> DEMON_CARVED_PUMPKIN = registryBlock("demon_carved_pumpkin",
             ()-> new DirectionBlockState(BlockBehaviour.Properties.of()
-                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.WOOD)));
+                    .strength(1f).sound(SoundType.WOOD)));
 
 
     private static <T extends Block> RegistryObject<T> registryBlock(String name, Supplier<T> block){
