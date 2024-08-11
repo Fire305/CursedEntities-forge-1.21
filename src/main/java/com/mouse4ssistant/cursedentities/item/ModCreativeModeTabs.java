@@ -23,6 +23,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.DEMON_CARVED_PUMPKIN.get());
                         output.accept(ModBlocks.INFUSED_DEMON_CARVED_PUMPKIN.get());
                         output.accept(ModItems.CURSED_BOOK_SCARECROW.get());
+                        output.accept(ModItems.CELESTINE_SHARD.get());
                         output.accept(ModItems.CELESTINE_CRYSTAL.get());
                         output.accept(ModBlocks.CELESTINE_ORE.get());
                         output.accept(ModBlocks.CELESTINE_DEEPSLATE_ORE.get());

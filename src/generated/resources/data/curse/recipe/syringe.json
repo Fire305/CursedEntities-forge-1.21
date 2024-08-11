@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:glass_pane"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "E": {
+      "item": "curse:celestine_crystal"
+    }
+  },
+  "pattern": [
+    " E ",
+    " A ",
+    " B "
+  ],
+  "result": {
+    "count": 1,
+    "id": "curse:syringe"
+  }
+}
