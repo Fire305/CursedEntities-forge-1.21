@@ -17,5 +17,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.CURSED_BOOK_SCARECROW.get());
         basicItem(ModItems.CELESTINE_CRYSTAL.get());
         basicItem(ModItems.CELESTINE_SHARD.get());
+        basicItem(ModItems.SYRINGE.get());
+        basicItem(ModItems.INFUSED_SYRINGE.get());
     }
 }
