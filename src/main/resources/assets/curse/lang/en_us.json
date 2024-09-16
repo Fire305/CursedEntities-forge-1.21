@@ -5,11 +5,14 @@
   "item.curse.celestine_crystal": "Celestine crystal",
   "item.curse.syringe": "Syringe",
   "item.curse.infused_syringe": "Soul infused syringe",
+  "item.curse.little_soul": "Little soul",
+  "item.curse.crow_feather": "Crow feather",
 
   "block.curse.demon_carved_pumpkin": "Demon carved pumpkin",
   "block.curse.infused_demon_carved_pumpkin": "Infused demon carved pumpkin",
   "block.curse.celestine_ore": "Celestine ore",
   "block.curse.celestine_deepslate_ore": "Celestine deepslate ore",
+  "block.curse.cursed_table": "Cursed table",
 
   "tooltip.curse.celestine_shard.tooltip.1": "This material has §7spiritual§r power but it is very weak",
   "tooltip.curse.celestine_crystal.tooltip.1": "The §7spiritual§r power is more powerful now",
