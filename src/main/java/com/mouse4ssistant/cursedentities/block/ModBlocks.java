@@ -1,6 +1,7 @@
 package com.mouse4ssistant.cursedentities.block;
 
 import com.mouse4ssistant.cursedentities.CursedEntitiesMod;
+import com.mouse4ssistant.cursedentities.block.custom.CursedTableBLock;
 import com.mouse4ssistant.cursedentities.block.custom.DirectionBlockState;
 import com.mouse4ssistant.cursedentities.item.ModItems;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -45,6 +46,9 @@ public class ModBlocks {
             ()-> new DropExperienceBlock(UniformInt.of(3, 7),
                     BlockBehaviour.Properties.of().strength(5f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()));
 
+    public static final RegistryObject<Block> CURSED_TABLE = registryBlock("cursed_table",
+            ()-> new CursedTableBLock(BlockBehaviour.Properties.of()
+                    .strength(3f).sound(SoundType.WOOD).noOcclusion()));
 
     private static <T extends Block> RegistryObject<T> registryBlock(String name, Supplier<T> block){
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

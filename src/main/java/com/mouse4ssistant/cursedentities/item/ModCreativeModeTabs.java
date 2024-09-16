@@ -29,6 +29,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.CELESTINE_DEEPSLATE_ORE.get());
                         output.accept(ModItems.SYRINGE.get());
                         output.accept(ModItems.INFUSED_SYRINGE.get());
+                        output.accept(ModItems.LITTLE_SOUL.get());
+                        output.accept(ModItems.CROW_FEATHER.get());
+                        output.accept(ModBlocks.CURSED_TABLE.get());
 
                     })).build());
 

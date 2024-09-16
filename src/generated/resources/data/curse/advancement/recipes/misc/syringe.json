@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_celestine_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "curse:celestine_crystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "curse:syringe"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_celestine_crystal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "curse:syringe"
+    ]
+  }
+}

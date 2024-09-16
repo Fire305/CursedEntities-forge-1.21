@@ -56,6 +56,10 @@ public class ModItems {
                     super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
                 }
             });
+    public static final RegistryObject<Item> LITTLE_SOUL = ITEMS.register("little_soul",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> CROW_FEATHER = ITEMS.register("crow_feather",
+            () -> new Item(new Item.Properties()));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

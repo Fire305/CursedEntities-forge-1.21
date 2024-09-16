@@ -19,5 +19,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.CELESTINE_SHARD.get());
         basicItem(ModItems.SYRINGE.get());
         basicItem(ModItems.INFUSED_SYRINGE.get());
+        basicItem(ModItems.LITTLE_SOUL.get());
+        basicItem(ModItems.CROW_FEATHER.get());
     }
 }
