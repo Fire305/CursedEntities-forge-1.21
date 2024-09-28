@@ -2,9 +2,12 @@ package com.mouse4ssistant.cursedentities;
 
 import com.mojang.logging.LogUtils;
 import com.mouse4ssistant.cursedentities.block.ModBlocks;
+import com.mouse4ssistant.cursedentities.block.entity.ModBlockEntities;
 import com.mouse4ssistant.cursedentities.item.ModCreativeModeTabs;
 import com.mouse4ssistant.cursedentities.item.ModItems;
+import com.mouse4ssistant.cursedentities.screen.CursedTableScreen;
 import com.mouse4ssistant.cursedentities.screen.ModMenuTypes;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,6 +41,8 @@ public class CursedEntitiesMod
         ModBlocks.register(modEventBus);
         ModMenuTypes.register(modEventBus);
 
+        ModBlockEntities.register(modEventBus);
+
         modEventBus.addListener(this::addCreative);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
@@ -67,7 +72,7 @@ public class CursedEntitiesMod
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-
+            MenuScreens.register(ModMenuTypes.CURSED_TABLE_MENU.get(), CursedTableScreen::new);
         }
     }
 }

@@ -1,66 +1,66 @@
 package com.mouse4ssistant.cursedentities.screen;
 
 import com.mouse4ssistant.cursedentities.block.ModBlocks;
+import com.mouse4ssistant.cursedentities.block.entity.CursedTableBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.ResultContainer;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class CursedTableMenu extends AbstractContainerMenu {
+    private final CursedTableBlockEntity blockEntity;
     private final Level level;
-    private final Slot inputSlot1;
-    private final Slot inputSlot2;
-    private final Slot inputSlot3;
-    private final Slot outputSlot;
+    private final ContainerData data;
 
-    protected final ResultContainer resultSlots = new ResultContainer();
-    protected final Container inputSlots = new SimpleContainer(3){
-        public void setChange(){
-            super.setChanged();
-            CursedTableMenu.this.slotsChanged(this);
-        }
-    };
-
-    public CursedTableMenu(int containerId, Inventory inv, FriendlyByteBuf extraData){
-        this(containerId, inv, ContainerLevelAccess.NULL);
+    public CursedTableMenu(int containerId, Inventory playerInv, FriendlyByteBuf additionalData) {
+        this(containerId, playerInv, playerInv.player.level().getBlockEntity(additionalData.readBlockPos()), new SimpleContainerData(4));
     }
 
-    protected final ContainerLevelAccess access;
-
-    public CursedTableMenu(int containerId, Inventory inv, ContainerLevelAccess access){
+    public CursedTableMenu(int containerId, Inventory playerInv, BlockEntity entity, ContainerData data) {
         super(ModMenuTypes.CURSED_TABLE_MENU.get(), containerId);
-        this.access = access;
-        checkContainerSize(inv, 4);
-        this.level = inv.player.level();
+        blockEntity = ((CursedTableBlockEntity) entity);
 
-        addPlayerInventory(inv);
-        addPlayerHotbar(inv);
+        this.level = playerInv.player.level();
+        this.data = data;
 
-        inputSlot1 = new Slot(inputSlots, 0, 79, 6);
-        inputSlot2 = new Slot(inputSlots, 1, 43, 31);
-        inputSlot3 = new Slot(inputSlots, 2, 115, 31);
-        outputSlot = new Slot(resultSlots, 3, 79, 37);
+        createPlayerHotbar(playerInv);
+        createPlayerInventory(playerInv);
+        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(itemHandler -> {
+            this.addSlot(new SlotItemHandler(itemHandler, 0, 80, 7));
+            this.addSlot(new SlotItemHandler(itemHandler, 1, 44, 32));
+            this.addSlot(new SlotItemHandler(itemHandler, 2, 116, 32));
+            this.addSlot(new SlotItemHandler(itemHandler, 3, 80, 38));
+        });
+        addDataSlots(data);
 
-        this.addSlot(inputSlot1);
-        this.addSlot(inputSlot2);
-        this.addSlot(inputSlot3);
-        this.addSlot(outputSlot);
     }
 
-    // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
-    // must assign a slot number to each of the slots used by the GUI.
-    // For this container, we can see both the tile inventory's slots as well as the player inventory slots and the hotbar.
-    // Each time we add a Slot to the container, it automatically increases the slotIndex, which means
-    //  0 - 8 = hotbar slots (which will map to the InventoryPlayer slot numbers 0 - 8)
-    //  9 - 35 = player inventory slots (which map to the InventoryPlayer slot numbers 9 - 35)
-    //  36 - 44 = TileInventory slots, which map to our TileEntity slot numbers 0 - 8)
+    private void createPlayerInventory(Inventory playerInv) {
+        for (int row = 0; row < 3; row++) {
+            for (int column = 0; column < 9; column++) {
+                addSlot(new Slot(playerInv,
+                        9 + column + (row * 9),
+                        8 + (column * 18),
+                        84 + (row * 18)));
+            }
+        }
+    }
+
+    private void createPlayerHotbar(Inventory playerInv) {
+        for (int column = 0; column < 9; column++) {
+            addSlot(new Slot(playerInv,
+                    column,
+                    8 + (column * 18),
+                    142));
+        }
+    }
+
     private static final int HOTBAR_SLOT_COUNT = 9;
     private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
     private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
@@ -105,22 +105,19 @@ public class CursedTableMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return this.access.evaluate((level, blockPos) -> {
-            return !level.getBlockState(blockPos).is(ModBlocks.CURSED_TABLE.get()) ? false : pPlayer.distanceToSqr((double) blockPos.getX() + 0.5D, (double) blockPos.getY() + 0.5D, (double) blockPos.getZ() + 0.5D) <= 64.0D;
-        }, true);
+        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
+                pPlayer, ModBlocks.CURSED_TABLE.get());
     }
 
-    private void addPlayerInventory(Inventory playerInventory) {
-        for (int i = 0; i < 3; ++i) {
-            for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
-            }
-        }
+    public boolean isCrafting() {
+        return data.get(0) > 0;
     }
 
-    private void addPlayerHotbar(Inventory playerInventory) {
-        for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
-        }
+    public int getScaledProgress() {
+        int progress = this.data.get(0);
+        int maxProgress = this.data.get(1);
+        int progressArrowSize = 24;
+
+        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }
 }

@@ -1,45 +1,50 @@
 package com.mouse4ssistant.cursedentities.block.custom;
 
+import com.google.common.graph.Network;
 import com.mojang.serialization.MapCodec;
-import com.mouse4ssistant.cursedentities.item.ModItems;
+import com.mouse4ssistant.cursedentities.block.entity.CursedTableBlockEntity;
+import com.mouse4ssistant.cursedentities.block.entity.ModBlockEntities;
 import com.mouse4ssistant.cursedentities.screen.CursedTableMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.inventory.MenuConstructor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.ChestType;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 
 
 import javax.annotation.Nullable;
 
 
-public class CursedTableBLock extends HorizontalDirectionalBlock implements MenuProvider {
+public class CursedTableBLock extends BaseEntityBlock {
     public static final EnumProperty<ChestType> PART = BlockStateProperties.CHEST_TYPE;
+
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
 
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 18, 16);
     public static final VoxelShape SHAPE_TABLETOP = Block.box(0, 9, 0, 16, 14, 16);
@@ -52,15 +57,20 @@ public class CursedTableBLock extends HorizontalDirectionalBlock implements Menu
     public static final VoxelShape SHAPE_LEGS_NORTH = Shapes.or(SHAPE_LEG_3, SHAPE_LEG_4, SHAPE_TABLETOP);
     public static final VoxelShape SHAPE_LEGS_SOUTH = Shapes.or(SHAPE_LEG_1, SHAPE_LEG_2, SHAPE_TABLETOP);
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(4);
-
-    private static final int INPUT_SLOT_1 = 0;
-    private static final int INPUT_SLOT_2 = 1;
-    private static final int INPUT_SLOT_3 = 2;
-    private static final int OUTPUT_SLOT = 3;
-
     public CursedTableBLock(Properties pProperties) {
         super(pProperties);
+    }
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new CursedTableBlockEntity(blockPos, blockState);
+    }
+
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
     }
 
     public BlockState updateShape(BlockState myState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos myPos, BlockPos pFacingPos) {
@@ -97,7 +107,7 @@ public class CursedTableBLock extends HorizontalDirectionalBlock implements Menu
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         Direction direction = pContext.getHorizontalDirection();
         BlockPos blockpos = pContext.getClickedPos();
-        BlockPos blockpos1 = blockpos.relative(direction.getCounterClockWise());
+        BlockPos blockpos1 = blockpos.relative(direction.getClockWise());
         Level level = pContext.getLevel();
         if (level.getBlockState(blockpos1).canBeReplaced(pContext) && level.getWorldBorder().isWithinBounds(blockpos1)) {
             return this.defaultBlockState().setValue(FACING, direction.getOpposite());
@@ -135,59 +145,53 @@ public class CursedTableBLock extends HorizontalDirectionalBlock implements Menu
         return PushReaction.BLOCK;
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return null;
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
-    //menu:
-
-    @Override
-    public Component getDisplayName() {
-        return Component.translatable("block.curse.cursed_table");
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (pLevel.isClientSide) {
-            return InteractionResult.SUCCESS;
-        } else {
-            pPlayer.openMenu(pState.getMenuProvider(pLevel, pPos));
-            return InteractionResult.CONSUME;
+    protected void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
+        if (pState.getBlock() != pNewState.getBlock()) {
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+            if (blockEntity instanceof CursedTableBlockEntity) {
+                ((CursedTableBlockEntity) blockEntity).drops();
+            }
         }
+        super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
 
-    private void craftItem() {
-        ItemStack result = new ItemStack(ModItems.CURSED_BOOK_SCARECROW.get(), 1);
-        this.itemHandler.extractItem(INPUT_SLOT_1, 1, false);
-        this.itemHandler.extractItem(INPUT_SLOT_2, 1, false);
-        this.itemHandler.extractItem(INPUT_SLOT_3, 1, false);
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide()) {
+            BlockEntity entity = pLevel.getBlockEntity(pPos);
+            if (entity instanceof CursedTableBlockEntity cursedTableBlockEntity) {
+                if (pState.getValue(PART).equals(ChestType.RIGHT)) {
+                    ((ServerPlayer) pPlayer).openMenu(new SimpleMenuProvider(cursedTableBlockEntity, Component.literal("Cursed_table")), pPos);
+                } else if (pState.getValue(PART).equals(ChestType.LEFT)) {
+                    if(pPlayer instanceof ServerPlayer serverPlayer)
+                        serverPlayer.openMenu(cursedTableBlockEntity, pPos.relative(pState.getValue(FACING).getCounterClockWise()));
+                     }
+                } else {
+                    throw new IllegalStateException("Our Container provider is missing!");
+                }
 
-        this.itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(result.getItem(),
-                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + result.getCount()));
-    }
+        }
 
-    private boolean hasRecipe() {
-        boolean hasCraftingItem1 = this.itemHandler.getStackInSlot(INPUT_SLOT_1).getItem()== ModItems.CURSED_BOOK.get();
-        boolean hasCraftingItem2 = this.itemHandler.getStackInSlot(INPUT_SLOT_2).getItem()== ModItems.LITTLE_SOUL.get();
-        boolean hasCraftingItem3 = this.itemHandler.getStackInSlot(INPUT_SLOT_3).getItem()== ModItems.CROW_FEATHER.get();
-        ItemStack result = new ItemStack(ModItems.CURSED_BOOK_SCARECROW.get());
-
-        return hasCraftingItem1 && hasCraftingItem2 && hasCraftingItem3 && canInsertAmmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
-    }
-
-    private boolean canInsertItemIntoOutputSlot(Item item) {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT_SLOT).is(item);
-    }
-
-    private boolean canInsertAmmountIntoOutputSlot(int count) {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count <= this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
+        return ItemInteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
     @org.jetbrains.annotations.Nullable
     @Override
-    public AbstractContainerMenu createMenu(int pContaionerId, Inventory inventory, Player player) {
-        return null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        if(pLevel.isClientSide()){
+            return null;
+        }
+        return createTickerHelper(pBlockEntityType, ModBlockEntities.CURSED_TABLE_BE.get(),
+                (level, blockPos, blockState, cursedTableBlockEntity) -> cursedTableBlockEntity.tick(level, blockPos, blockState));
     }
 }
 
