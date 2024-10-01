@@ -32,6 +32,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.LITTLE_SOUL.get());
                         output.accept(ModItems.CROW_FEATHER.get());
                         output.accept(ModBlocks.CURSED_TABLE.get());
+                        output.accept(ModItems.TOME.get());
 
                     })).build());
 
