@@ -15,14 +15,14 @@ public class ModCreativeModeTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CursedEntitiesMod.MODID);
 
     public static final RegistryObject<CreativeModeTab> ESSENCE_OF_EXPLORATION_TAB = CREATIVE_MODE_TABS.register("cursed_entities_tab",
-            () -> CreativeModeTab.builder().icon(()-> new ItemStack(ModItems.CURSED_BOOK.get()))
+            () -> CreativeModeTab.builder().icon(()-> new ItemStack(ModItems.CURSED_TOME.get()))
                     .title(Component.translatable("creativetab.cursed_entities"))
                     .displayItems(((itemDisplayParameters, output) -> {
                         //order in which objects are visible
-                        output.accept(ModItems.CURSED_BOOK.get());
+                        output.accept(ModItems.CURSED_TOME.get());
                         output.accept(ModBlocks.DEMON_CARVED_PUMPKIN.get());
                         output.accept(ModBlocks.INFUSED_DEMON_CARVED_PUMPKIN.get());
-                        output.accept(ModItems.CURSED_BOOK_SCARECROW.get());
+                        output.accept(ModItems.CURSED_TOME_SCARECROW.get());
                         output.accept(ModItems.CELESTINE_SHARD.get());
                         output.accept(ModItems.CELESTINE_CRYSTAL.get());
                         output.accept(ModBlocks.CELESTINE_ORE.get());

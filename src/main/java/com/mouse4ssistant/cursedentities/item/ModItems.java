@@ -25,9 +25,9 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, CursedEntitiesMod.MODID);
 
-    public static final RegistryObject<Item> CURSED_BOOK = ITEMS.register("cursed_book",
+    public static final RegistryObject<Item> CURSED_TOME = ITEMS.register("cursed_tome",
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> CURSED_BOOK_SCARECROW = ITEMS.register("cursed_book_scarecrow",
+    public static final RegistryObject<Item> CURSED_TOME_SCARECROW = ITEMS.register("cursed_tome_scarecrow",
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CELESTINE_SHARD = ITEMS.register("celestine_shard",
             () -> new Item(new Item.Properties()){

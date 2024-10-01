@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "curse:item/cursed_book_scarecrow"
+    "layer0": "curse:item/cursed_tome"
   }
 }

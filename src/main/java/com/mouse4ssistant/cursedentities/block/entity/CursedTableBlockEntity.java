@@ -155,32 +155,28 @@ public class CursedTableBlockEntity extends BlockEntity implements MenuProvider{
     }
 
     private void craftItem() {
-        ItemStack result = new ItemStack(ModItems.CURSED_BOOK_SCARECROW.get(), 1);
+        ItemStack result = new ItemStack(ModItems.CURSED_TOME_SCARECROW.get(), 1);
         this.inventory.extractItem(1, 1, false);
         this.inventory.extractItem(2, 1, false);
+        this.inventory.extractItem(3, 1, false);
 
         this.inventory.setStackInSlot(3, new ItemStack(result.getItem(),
                 this.inventory.getStackInSlot(3).getCount()+result.getCount()));
     }
 
     private boolean hasRecipe() {
-        boolean hasCraftingItem1 = this.inventory.getStackInSlot(0).getItem()== ModItems.CURSED_BOOK.get();
+        boolean hasCraftingItem1 = this.inventory.getStackInSlot(0).getItem()== ModItems.CURSED_TOME.get();
         boolean hasCraftingItem2 = this.inventory.getStackInSlot(1).getItem()== ModItems.LITTLE_SOUL.get();
         boolean hasCraftingItem3 = this.inventory.getStackInSlot(2).getItem()== ModItems.CROW_FEATHER.get();
-        ItemStack result = new ItemStack(ModItems.CURSED_BOOK_SCARECROW.get());
+        boolean hasCraftingItem4 = this.inventory.getStackInSlot(3).getItem()== ModItems.TOME.get();
+        ItemStack result = new ItemStack(ModItems.CURSED_TOME_SCARECROW.get());
 
-        return hasCraftingItem1 && hasCraftingItem2 && hasCraftingItem3 && canInsertAmmountIntoOutputSlot(result.getCount())&& canInsertItemIntoOutputSlot(result.getItem());
+        return hasCraftingItem1 && hasCraftingItem2 && hasCraftingItem3 && hasCraftingItem4 && canInsertAmmountIntoOutputSlot();
 
     }
 
-    private boolean canInsertItemIntoOutputSlot(Item item) {
-        //itemHandler
-        return this.inventory.getStackInSlot(3).isEmpty() || this.inventory.getStackInSlot(3).is(item);
-    }
-
-    private boolean canInsertAmmountIntoOutputSlot(int count) {
-        //itemHandler
-        return this.inventory.getStackInSlot(3).getCount() + count <= this.inventory.getStackInSlot(3).getMaxStackSize();
+    private boolean canInsertAmmountIntoOutputSlot() {
+        return this.inventory.getStackInSlot(3).getCount() == 1;
     }
 
     private boolean hasProgressFinished() {
@@ -190,5 +186,7 @@ public class CursedTableBlockEntity extends BlockEntity implements MenuProvider{
     private void increaseCraftingProgress() {
         progress++;
     }
+
+
 
 }

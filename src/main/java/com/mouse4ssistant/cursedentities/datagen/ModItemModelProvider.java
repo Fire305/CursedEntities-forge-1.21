@@ -13,8 +13,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        basicItem(ModItems.CURSED_BOOK.get());
-        basicItem(ModItems.CURSED_BOOK_SCARECROW.get());
+        basicItem(ModItems.CURSED_TOME.get());
+        basicItem(ModItems.CURSED_TOME_SCARECROW.get());
         basicItem(ModItems.CELESTINE_CRYSTAL.get());
         basicItem(ModItems.CELESTINE_SHARD.get());
         basicItem(ModItems.SYRINGE.get());
