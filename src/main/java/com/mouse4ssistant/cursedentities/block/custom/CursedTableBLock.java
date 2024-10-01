@@ -107,7 +107,7 @@ public class CursedTableBLock extends BaseEntityBlock {
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         Direction direction = pContext.getHorizontalDirection();
         BlockPos blockpos = pContext.getClickedPos();
-        BlockPos blockpos1 = blockpos.relative(direction.getClockWise());
+        BlockPos blockpos1 = blockpos.relative(direction.getCounterClockWise());
         Level level = pContext.getLevel();
         if (level.getBlockState(blockpos1).canBeReplaced(pContext) && level.getWorldBorder().isWithinBounds(blockpos1)) {
             return this.defaultBlockState().setValue(FACING, direction.getOpposite());
@@ -167,20 +167,10 @@ public class CursedTableBLock extends BaseEntityBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (!pLevel.isClientSide()) {
-            BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if (entity instanceof CursedTableBlockEntity cursedTableBlockEntity) {
-                if (pState.getValue(PART).equals(ChestType.RIGHT)) {
-                    ((ServerPlayer) pPlayer).openMenu(new SimpleMenuProvider(cursedTableBlockEntity, Component.literal("Cursed_table")), pPos);
-                } else if (pState.getValue(PART).equals(ChestType.LEFT)) {
-                    if(pPlayer instanceof ServerPlayer serverPlayer)
-                        serverPlayer.openMenu(cursedTableBlockEntity, pPos.relative(pState.getValue(FACING).getCounterClockWise()));
-                     }
-                } else {
-                    throw new IllegalStateException("Our Container provider is missing!");
-                }
-
+            BlockEntity entity = pLevel.getBlockEntity(pState.getValue(PART) == ChestType.RIGHT ? pPos : pPos.relative(pState.getValue(FACING).getClockWise()));
+            if (entity instanceof CursedTableBlockEntity cursedTableBlockEntity) ((ServerPlayer) pPlayer).openMenu(new SimpleMenuProvider(cursedTableBlockEntity, Component.literal("Cursed Table")), pPos);
+            else throw new IllegalStateException("Our Container provider is missing!");
         }
-
         return ItemInteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
@@ -194,6 +184,3 @@ public class CursedTableBLock extends BaseEntityBlock {
                 (level, blockPos, blockState, cursedTableBlockEntity) -> cursedTableBlockEntity.tick(level, blockPos, blockState));
     }
 }
-
-
-
